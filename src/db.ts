@@ -1,18 +1,10 @@
 /* eslint-disable no-console */
 import Database from 'bun:sqlite'
-import { Generated, Kysely, Migrator , FileMigrationProvider } from 'kysely'
+import {  Kysely, Migrator , FileMigrationProvider } from 'kysely'
 import { BunSqliteDialect } from 'kysely-bun-sqlite'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-
-interface PetTable {
-    id: Generated<number>
-    name: string
-}
-
-export interface KyselyDatabase {
-    pet: PetTable
-}
+import { KyselyDatabase } from '@/schema'
 
 export const db = new Kysely<KyselyDatabase>({
   dialect: new BunSqliteDialect({

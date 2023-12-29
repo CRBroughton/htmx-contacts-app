@@ -30,6 +30,7 @@
         "package.json": true,
         "README.md": true,
         "src/styles.css": true,
+        "src/db.ts": true,
         "styles.css": true,
         "tailwind.config.ts": true,
         "tsconfig.json": true,
