@@ -1,5 +1,5 @@
 import { Kysely } from 'kysely'
-import { KyselyDatabase } from '@/db'
+import { KyselyDatabase } from '@/schema'
 
 export async function up(db: Kysely<KyselyDatabase>): Promise<void> {
   await db.schema
