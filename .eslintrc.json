@@ -41,6 +41,8 @@
             "maxEOF": 0
           }
         ],
-        "no-trailing-spaces": ["warn"]
+        "no-trailing-spaces": ["warn"],
+        "object-curly-spacing": ["warn", "always"],
+        "array-bracket-spacing": ["warn", "always"]
     }
 }

@@ -1,17 +1,12 @@
 import hono from './hono'
 import Test from './components/test'
 
-export interface Vector {
-    x: number
-    y: number
-}
-
-const db: Vector[] = [{ x: 1, y: 10 }]
+const numbers = [ 1, 2, 3 ]
 
 hono.get('/', (c) => {
   return c.render(
     <div>
-      <Test vectors={db} />
+      <Test numbers={numbers} />
     </div>
   )
 })

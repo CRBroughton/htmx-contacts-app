@@ -1,6 +1,7 @@
 import { Hono  } from 'hono'
 import { serveStatic } from 'hono/bun'
 import { jsxRenderer } from 'hono/jsx-renderer'
+import demo from './routes/demo'
 
 const hono = new Hono()
 
@@ -11,7 +12,7 @@ hono.get(
     return (
       <html>
         <head>
-          {/* <script src="https://unpkg.com/htmx.org@1.9.3"/> */}
+          <script src="https://unpkg.com/htmx.org@1.9.3"/>
           <link rel="stylesheet" href="styles.css"/>
           <title>Hono + htmx</title>
         </head>
@@ -23,7 +24,8 @@ hono.get(
   },
   { docType: true }
   )
-
 )
+
+hono.route('/', demo)
 
 export default hono

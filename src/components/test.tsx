@@ -1,10 +1,15 @@
-import { Vector } from '../index'
+import CustomButton from './button'
 
-export default function test({ vectors }: { vectors: Vector[] }) {
+export default function test({ numbers }: { numbers: number[] }) {
   return (
-    <div class="bg-red-300">
-      <h1>About me!</h1>
-      {vectors.map((vector) => <p>{vector.x} - {vector.y}</p>)}
+    <div>
+      <div class="bg-red-300 flex gap-2 p-2">
+        {numbers.map((num) =>
+          <div>
+            <CustomButton num={num} />
+          </div>
+        )}
+      </div>
     </div>
   )
 }
