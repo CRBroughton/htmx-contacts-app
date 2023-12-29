@@ -12,7 +12,7 @@ demo.get('/', (c) => {
 })
 
 demo.get('/id/:id', (c) => {
-  return c.render(<CustomButton num={5}/>)
+  return c.html(<CustomButton num={5}/>)
 })
 
 export default demo
