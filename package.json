@@ -2,13 +2,20 @@
   "name": "htmx-stack",
   "module": "src/index.tsx",
   "type": "module",
+  "version": "0.0.1",
   "scripts": {
     "dev": "concurrently \"bun run --watch src/index.tsx\" \"bun run tailwind:dev\"",
     "build": "bun build --outfile dist/server --compile ./src/index.tsx",
+    "lint:check": "eslint \"src/*.{tsx,ts}\"",
+    "lint:fix": "eslint \"src/*.{tsx,ts}\" --fix",
     "tailwind:dev": "bunx tailwindcss -i ./src/styles.css -o ./styles.css --watch",
-    "tailwind:build": "bunx tailwindcss -i ./src/styles.css -o ./styles.css"
+    "tailwind:build": "bunx tailwindcss -i ./src/styles.css -o ./styles.css",
+    "changeset": "npx changeset",
+    "changeset:status": "npx changeset status --verbose",
+    "changeset:version": "npx changeset version"
   },
   "dependencies": {
+    "@changesets/cli": "^2.26.2",
     "concurrently": "^8.2.2",
     "hono": "^3.11.11",
     "tailwindcss": "^3.4.0"
