@@ -1,7 +1,6 @@
 import { Hono  } from 'hono'
 import { serveStatic } from 'hono/bun'
 import { jsxRenderer } from 'hono/jsx-renderer'
-import demo from './routes/demo'
 
 const hono = new Hono()
 
@@ -25,7 +24,5 @@ hono.get(
   { docType: true }
   )
 )
-
-hono.route('/', demo)
 
 export default hono

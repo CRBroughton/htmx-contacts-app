@@ -1,5 +1,6 @@
 import hono from './hono'
 import Test from './components/test'
+import demo from './routes/demo'
 
 const numbers = [ 1, 2, 3 ]
 
@@ -10,5 +11,7 @@ hono.get('/', (c) => {
     </div>
   )
 })
+
+hono.route('/', demo)
 
 export default hono
