@@ -17,4 +17,20 @@
     "npm-scripts.showStartNotification": false,
     "css.lint.unknownAtRules": "ignore",
     "scss.lint.unknownAtRules": "ignore",
+    "typescript.inlayHints.parameterNames.enabled": "all",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "files.exclude": {
+        // Hide all dot-folders and dot-files
+        "**/.*": true,
+        // Hide the node_modules folder
+        "**/node_modules": true,
+        // Hide all configuration files
+        "bun.lockb": true,
+        "package.json": true,
+        "README.md": true,
+        "src/styles.css": true,
+        "styles.css": true,
+        "tailwind.config.ts": true,
+        "tsconfig.json": true,
+    }
 }
