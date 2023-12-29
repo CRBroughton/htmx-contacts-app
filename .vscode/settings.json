@@ -25,6 +25,7 @@
         // Hide the node_modules folder
         "**/node_modules": true,
         // Hide all configuration files
+        "src/hono.tsx": true,
         "bun.lockb": true,
         "package.json": true,
         "README.md": true,
