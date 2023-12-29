@@ -7,10 +7,10 @@
         "typescriptreact"
   ],
   "editor.codeActionsOnSave": {
-      "source.fixAll": true,
-      "eslint.format.enable": true,
-      "editor.formatOnSave": true,
-    },
+    "source.fixAll": "explicit",
+    "eslint.format.enable": "explicit",
+    "editor.formatOnSave": "explicit"
+},
     "editor.bracketPairColorization.enabled": true,
     "editor.guides.bracketPairs": "active",
     "editor.wordWrap": "on",
