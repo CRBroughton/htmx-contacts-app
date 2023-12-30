@@ -1,3 +1,5 @@
+/// <reference types="typed-htmx" />
+
 import { Contact } from '@/routes/demo'
 
 export default function ContactEntry({ contact }: { contact: Contact }) {
