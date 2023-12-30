@@ -5,7 +5,7 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 const hono = new Hono()
 
 hono.use('/styles.css', serveStatic({ path: './styles.css' }))
-hono.get(
+hono.use(
   '*',
   jsxRenderer(({ children }) => {
     return (
