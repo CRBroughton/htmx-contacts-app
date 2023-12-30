@@ -3,7 +3,7 @@ import ContactEntry from './ContactEntry'
 
 export default function ContactTable({ contacts }: { contacts: Contact[] }) {
   return (
-    <table>
+    <table class="text-left">
       <thead>
         <tr>
           <th>First</th>
@@ -12,6 +12,7 @@ export default function ContactTable({ contacts }: { contacts: Contact[] }) {
           <th>Email</th>
         </tr>
       </thead>
+      <div class="border border-slate-800"/>
       <tbody>
         {contacts.map((contact) =>
           <ContactEntry contact={contact}/>
