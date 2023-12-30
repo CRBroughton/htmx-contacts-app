@@ -1,3 +1,4 @@
+import AddContact from '@/components/AddContact'
 import ContactTable from '@/components/ContactTable'
 import ContactsForm from '@/components/ContactsForm'
 import { Layout } from '@/components/Layout'
@@ -56,6 +57,7 @@ demo.get('/contacts', (c) => {
         <Layout>
           <ContactsForm input={''}/>
           <ContactTable contacts={contacts}/>
+          <AddContact/>
         </Layout>
       )
     }
@@ -65,6 +67,7 @@ demo.get('/contacts', (c) => {
         <Layout>
           <ContactsForm input={searchTerm}/>
           <ContactTable contacts={[ filteredContact! ]}/>
+          <AddContact/>
         </Layout>
       )
     }
@@ -74,6 +77,7 @@ demo.get('/contacts', (c) => {
     <Layout>
       <ContactsForm input={''}/>
       <ContactTable contacts={contacts}/>
+      <AddContact/>
     </Layout>
   )
   // return c.text('Hello from the contacts page')
