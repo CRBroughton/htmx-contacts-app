@@ -1,8 +1,8 @@
 import { ContactWithErrors } from '@/schema'
 
-export default function NewContact({ contact }: { contact: ContactWithErrors }) {
+export default function NewContact({ contact, action, method }: { contact: ContactWithErrors, action: string, method: string }) {
   return (
-    <form  action="/contacts/new" method="post">
+    <form  action={action} method={method}>
       <fieldset class="flex flex-col gap-2">
         <legend>Contact Values</legend>
         <p>

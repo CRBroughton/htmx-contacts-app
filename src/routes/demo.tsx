@@ -71,7 +71,7 @@ demo.get('/contacts/new', (c) => {
   }
   return c.render(
     <Layout>
-      <NewContact contact={newContact} />
+      <NewContact contact={newContact} action='/contacts/new' method='POST' />
       <p>
         <a href="/contacts">Back</a>
       </p>
@@ -81,6 +81,7 @@ demo.get('/contacts/new', (c) => {
 
 demo.post('/contacts/new', async (c) => {
   const newContact = await c.req.parseBody<Omit<Contact, 'id'>>()
+  const contact = await c.req.parseBody<Record<string, string>>()
 
   let contactWithErrors: ContactWithErrors = {
     ...newContact,
@@ -127,7 +128,7 @@ demo.post('/contacts/new', async (c) => {
   if (contactWithErrors.errors) {
     return c.render(
       <Layout>
-        <NewContact contact={contactWithErrors} />
+        <NewContact contact={contactWithErrors} action={`/contacts/${ contact.id }/edit`} method='POST' />
         <p>
           <a href="/contacts">Back</a>
         </p>
@@ -157,6 +158,93 @@ demo.get('/contacts/:id', async (c) => {
   }
 
   return c.redirect('/contacts')
+})
+
+demo.get('/contacts/:id/edit', async (c) => {
+  const id = c.req.param('id')
+
+  const contact = await db
+    .selectFrom('contacts')
+    .where('id', '=', Number(id))
+    .selectAll()
+    .executeTakeFirst()
+  if (contact !== undefined) {
+
+    return c.render(
+      <Layout>
+        <NewContact contact={contact} action={`/contacts/${contact.id}/edit`} method='POST' />
+        <p>
+          <a href="/contacts">Back</a>
+        </p>
+      </Layout>
+    )
+  }
+  return c.redirect('/contacts')
+})
+
+demo.post('/contacts/:id/edit', async (c) => {
+  const newContact = await c.req.parseBody<Omit<Contact, 'id'>>()
+  const contact = await c.req.parseBody<Record<string, string>>()
+
+  let contactWithErrors: ContactWithErrors = {
+    ...newContact,
+  }
+  if (newContact.email.length <= 0) {
+    contactWithErrors = {
+      ...contactWithErrors,
+      errors: {
+        ...contactWithErrors.errors,
+        email: 'No email provided'
+      }
+    }
+  }
+
+  if (newContact.first.length <= 0) {
+    contactWithErrors = {
+      ...contactWithErrors,
+      errors: {
+        ...contactWithErrors.errors,
+        first: 'No first name provided'
+      }
+    }
+  }
+  if (newContact.last.length <= 0) {
+    contactWithErrors = {
+      ...contactWithErrors,
+      errors: {
+        ...contactWithErrors.errors,
+        last: 'No last name provided'
+      }
+    }
+  }
+  if (newContact.phone.length <= 0) {
+    contactWithErrors = {
+      ...contactWithErrors,
+      errors: {
+        ...contactWithErrors.errors,
+        phone: 'No phone number provided'
+      }
+    }
+  }
+
+  if (contactWithErrors.errors) {
+    return c.render(
+      <Layout>
+        <NewContact contact={contactWithErrors} action={`/contacts/${ contact.id }/edit`} method='POST' />
+        <p>
+          <a href="/contacts">Back</a>
+        </p>
+      </Layout>
+    )
+  }
+
+  await db
+    .updateTable('contacts')
+    .set(newContact)
+    .where('id', '=', Number(c.req.param('id')))
+    .execute()
+  return c.redirect('/contacts')
+
 })
 // demo.get('/', (c) => {
 //   return c.render(<div><Test numbers={numbers} /></div>
