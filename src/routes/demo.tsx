@@ -6,6 +6,7 @@ import NewContact from '@/pages/NewContact'
 import { Hono } from 'hono'
 import { db } from '@/db'
 import { ContactWithErrors, Contact } from '@/schema'
+import ContactDetail from '@/components/ContactDetails'
 
 const demo = new Hono()
 
@@ -139,6 +140,23 @@ demo.post('/contacts/new', async (c) => {
     .executeTakeFirstOrThrow()
   return c.redirect('/contacts')
 
+})
+
+demo.get('/contacts/:id', async (c) => {
+  const id = c.req.param('id')
+  const contact = await db
+    .selectFrom('contacts')
+    .where('id', '=', Number(id))
+    .selectAll()
+    .executeTakeFirst()
+
+  if (contact !== undefined) {
+    return c.render(
+      <ContactDetail contact={contact}/>
+    )
+  }
+
+  return c.redirect('/contacts')
 })
 // demo.get('/', (c) => {
 //   return c.render(<div><Test numbers={numbers} /></div>
