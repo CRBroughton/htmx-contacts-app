@@ -548,6 +548,14 @@ video {
   display: flex;
 }
 
+.table {
+  display: table;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
 .gap-2 {
   gap: 0.5rem;
 }
@@ -566,6 +574,15 @@ video {
   background-color: rgb(252 165 165 / var(--tw-bg-opacity));
 }
 
+.bg-slate-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
+}
+
 .p-2 {
   padding: 0.5rem;
+}
+
+.p-8 {
+  padding: 2rem;
 }
