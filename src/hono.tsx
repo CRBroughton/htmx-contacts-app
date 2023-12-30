@@ -12,7 +12,7 @@ hono.get(
       <html>
         <head>
           <script src="https://unpkg.com/htmx.org@1.9.3"/>
-          <link rel="stylesheet" href="styles.css"/>
+          <link rel="stylesheet" href="/styles.css"/>
           <title>Hono + htmx</title>
         </head>
         <body>
