@@ -71,7 +71,6 @@ demo.get('/contacts', (c) => {
         </Layout>
       )
     }
-
   }
   return c.render(
     <Layout>
@@ -81,6 +80,14 @@ demo.get('/contacts', (c) => {
     </Layout>
   )
   // return c.text('Hello from the contacts page')
+})
+
+demo.get('/contacts/new', (c) => {
+  return c.render(
+    <Layout>
+      <AddContact/>
+    </Layout>
+  )
 })
 
 // demo.get('/', (c) => {
