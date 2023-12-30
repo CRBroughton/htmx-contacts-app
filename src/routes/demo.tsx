@@ -14,7 +14,7 @@ demo.get('/', (c) => {
   return c.redirect('/contacts', 301)
 })
 
-demo.get('/contacts', async(c) => {
+demo.get('/contacts', async (c) => {
   const searchTerm = c.req.query('q')
 
   if (searchTerm !== undefined && searchTerm.length > 0) {
@@ -128,7 +128,7 @@ demo.post('/contacts/new', async (c) => {
   if (contactWithErrors.errors) {
     return c.render(
       <Layout>
-        <NewContact contact={contactWithErrors} action={`/contacts/${ contact.id }/edit`} method='POST' />
+        <NewContact contact={contactWithErrors} action={`/contacts/${contact.id}/edit`} method='POST' />
         <p>
           <a href="/contacts">Back</a>
         </p>
@@ -153,7 +153,7 @@ demo.get('/contacts/:id', async (c) => {
 
   if (contact !== undefined) {
     return c.render(
-      <ContactDetail contact={contact}/>
+      <ContactDetail contact={contact} />
     )
   }
 
@@ -173,8 +173,11 @@ demo.get('/contacts/:id/edit', async (c) => {
     return c.render(
       <Layout>
         <NewContact contact={contact} action={`/contacts/${contact.id}/edit`} method='POST' />
+        <form action={`/contacts/${contact.id}/delete`} method="post">
+          <button>Delete Contact</button>
+        </form>
         <p>
-          <a href="/contacts">Back</a>
+          <a href="/contacts/">Back</a>
         </p>
       </Layout>
     )
@@ -230,7 +233,7 @@ demo.post('/contacts/:id/edit', async (c) => {
   if (contactWithErrors.errors) {
     return c.render(
       <Layout>
-        <NewContact contact={contactWithErrors} action={`/contacts/${ contact.id }/edit`} method='POST' />
+        <NewContact contact={contactWithErrors} action={`/contacts/${contact.id}/edit`} method='POST' />
         <p>
           <a href="/contacts">Back</a>
         </p>
@@ -243,6 +246,18 @@ demo.post('/contacts/:id/edit', async (c) => {
     .set(newContact)
     .where('id', '=', Number(c.req.param('id')))
     .execute()
+  return c.redirect('/contacts')
+
+})
+
+demo.post('/contacts/:id/delete', async (c) => {
+  const id = c.req.param('id')
+
+  db
+    .deleteFrom('contacts')
+    .where('id', '=', Number(id))
+    .execute()
+
   return c.redirect('/contacts')
 
 })
