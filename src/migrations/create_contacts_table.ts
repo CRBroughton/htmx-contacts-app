@@ -3,12 +3,15 @@ import { KyselyDatabase } from '@/schema'
 
 export async function up(db: Kysely<KyselyDatabase>): Promise<void> {
   await db.schema
-    .createTable('pet')
+    .createTable('contacts')
     .addColumn('id', 'integer', (col) => col.primaryKey().autoIncrement())
-    .addColumn('name', 'varchar')
+    .addColumn('first', 'varchar')
+    .addColumn('last', 'varchar')
+    .addColumn('phone', 'varchar')
+    .addColumn('email', 'varchar')
     .execute()
 }
 
 export async function down(db: Kysely<KyselyDatabase>): Promise<void> {
-  await db.schema.dropTable('pet').execute()
+  await db.schema.dropTable('contacts').execute()
 }

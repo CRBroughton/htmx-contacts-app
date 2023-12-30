@@ -1,4 +1,4 @@
-import { ContactWithErrors } from '@/routes/demo'
+import { ContactWithErrors } from '@/schema'
 
 export default function NewContact({ contact }: { contact: ContactWithErrors }) {
   return (

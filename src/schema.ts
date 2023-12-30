@@ -1,16 +1,27 @@
-import { Generated } from 'kysely'
+import { Generated, Selectable } from 'kysely'
 
-interface PetTable {
+interface ContactsTable {
     id: Generated<number>
-    name: string
-}
-
-interface asdTable {
-    id: Generated<number>
-    job: string
+    first: string
+    last: string
+    phone: string
+    email: string
 }
 
 export interface KyselyDatabase {
-    pet: PetTable
-    asd: asdTable
+    contacts: ContactsTable
+}
+export type Contact = Selectable<ContactsTable>
+
+// Custom types
+
+interface ContactErrors {
+    first?: string
+    last?: string
+    phone?: string
+    email?: string
+}
+
+export interface ContactWithErrors extends Omit<Contact, 'id'> {
+    errors?: ContactErrors
 }

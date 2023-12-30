@@ -1,4 +1,4 @@
-import { Contact } from '@/routes/demo'
+import { Contact } from '@/schema'
 
 export default function ContactEntry({ contact }: { contact: Contact }) {
   return (

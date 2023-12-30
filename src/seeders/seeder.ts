@@ -1,3 +1,3 @@
-import petSeeder from './pet_table'
+import contactsSeeder from './contacts_table'
 
-await petSeeder()
+await contactsSeeder()

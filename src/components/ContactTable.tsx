@@ -1,4 +1,4 @@
-import { Contact } from '@/routes/demo'
+import { Contact } from '@/schema'
 import ContactEntry from './ContactEntry'
 
 export default function ContactTable({ contacts }: { contacts: Contact[] }) {
