@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+      "CraigRBroughton.htmx-attributes",
+      "bradlc.vscode-tailwindcss",
+      "dbaeumer.vscode-eslint",
+      "usernamehw.errorlens",
+      "mhutchie.git-graph",
+      "formulahendry.auto-rename-tag",
+      "vivaxy.vscode-conventional-commits",
+    ]
+  }
