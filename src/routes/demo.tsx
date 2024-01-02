@@ -7,6 +7,7 @@ import { Hono } from 'hono'
 import { db } from '@/db'
 import { ContactWithErrors, Contact } from '@/schema'
 import ContactDetail from '@/components/ContactDetails'
+import { validateContact } from '@/utils'
 
 const demo = new Hono()
 
@@ -83,47 +84,7 @@ demo.post('/contacts/new', async (c) => {
   const newContact = await c.req.parseBody<Omit<Contact, 'id'>>()
   const contact = await c.req.parseBody<Record<string, string>>()
 
-  let contactWithErrors: ContactWithErrors = {
-    ...newContact,
-  }
-
-  if (newContact.email.length <= 0) {
-    contactWithErrors = {
-      ...contactWithErrors,
-      errors: {
-        ...contactWithErrors.errors,
-        email: 'No email provided'
-      }
-    }
-  }
-
-  if (newContact.first.length <= 0) {
-    contactWithErrors = {
-      ...contactWithErrors,
-      errors: {
-        ...contactWithErrors.errors,
-        first: 'No first name provided'
-      }
-    }
-  }
-  if (newContact.last.length <= 0) {
-    contactWithErrors = {
-      ...contactWithErrors,
-      errors: {
-        ...contactWithErrors.errors,
-        last: 'No last name provided'
-      }
-    }
-  }
-  if (newContact.phone.length <= 0) {
-    contactWithErrors = {
-      ...contactWithErrors,
-      errors: {
-        ...contactWithErrors.errors,
-        phone: 'No phone number provided'
-      }
-    }
-  }
+  const contactWithErrors = validateContact(newContact)
 
   if (contactWithErrors.errors) {
     return c.render(
@@ -189,46 +150,7 @@ demo.post('/contacts/:id/edit', async (c) => {
   const newContact = await c.req.parseBody<Omit<Contact, 'id'>>()
   const contact = await c.req.parseBody<Record<string, string>>()
 
-  let contactWithErrors: ContactWithErrors = {
-    ...newContact,
-  }
-  if (newContact.email.length <= 0) {
-    contactWithErrors = {
-      ...contactWithErrors,
-      errors: {
-        ...contactWithErrors.errors,
-        email: 'No email provided'
-      }
-    }
-  }
-
-  if (newContact.first.length <= 0) {
-    contactWithErrors = {
-      ...contactWithErrors,
-      errors: {
-        ...contactWithErrors.errors,
-        first: 'No first name provided'
-      }
-    }
-  }
-  if (newContact.last.length <= 0) {
-    contactWithErrors = {
-      ...contactWithErrors,
-      errors: {
-        ...contactWithErrors.errors,
-        last: 'No last name provided'
-      }
-    }
-  }
-  if (newContact.phone.length <= 0) {
-    contactWithErrors = {
-      ...contactWithErrors,
-      errors: {
-        ...contactWithErrors.errors,
-        phone: 'No phone number provided'
-      }
-    }
-  }
+  const contactWithErrors = validateContact(newContact)
 
   if (contactWithErrors.errors) {
     return c.render(
