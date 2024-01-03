@@ -15,7 +15,7 @@ hono.use(
           <link rel="stylesheet" href="/styles.css"/>
           <title>Hono + htmx</title>
         </head>
-        <body>
+        <body hx-boost="true">
           <div>{children}</div>
         </body>
       </html>

@@ -134,11 +134,14 @@ demo.get('/contacts/:id/edit', async (c) => {
     return c.render(
       <Layout>
         <NewContact contact={contact} action={`/contacts/${contact.id}/edit`} method='POST' />
-        <form action={`/contacts/${contact.id}/delete`} method="post">
-          <button>Delete Contact</button>
-        </form>
+        <button
+          hx-delete={`/contacts/${contact.id}`}
+          hx-target="body"
+          hx-confirm="Are you sure you want to delete this contact?"
+          hx-push-url="true"
+        >Delete Contact</button>
         <p>
-          <a href="/contacts/">Back</a>
+          <a href="/contacts">Back</a>
         </p>
       </Layout>
     )
@@ -172,7 +175,7 @@ demo.post('/contacts/:id/edit', async (c) => {
 
 })
 
-demo.post('/contacts/:id/delete', async (c) => {
+demo.delete('/contacts/:id', async (c) => {
   const id = c.req.param('id')
 
   db
@@ -180,7 +183,7 @@ demo.post('/contacts/:id/delete', async (c) => {
     .where('id', '=', Number(id))
     .execute()
 
-  return c.redirect('/contacts')
+  return c.redirect('/contacts', 303)
 
 })
 // demo.get('/', (c) => {
