@@ -7,7 +7,15 @@ export default function NewContact({ contact, action, method }: { contact: Conta
         <legend>Contact Values</legend>
         <p>
           <label for="email">Email</label>
-          <input name="email" id="email" type="email" placeholder="Email" value={contact.email ?? ''} />
+          <input
+            name="email"
+            id="email"
+            type="email"
+            placeholder="Email"
+            hx-get={`/contacts/${contact.id}/email`}
+            hx-target="next .error"
+            value={contact.email ?? ''}
+          />
           <span class="error">{contact.errors ? contact.errors['email'] : ''}</span>
         </p>
         <p>
