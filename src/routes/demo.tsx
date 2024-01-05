@@ -82,14 +82,13 @@ demo.get('/contacts/new', (c) => {
 
 demo.post('/contacts/new', async (c) => {
   const newContact = await c.req.parseBody<Omit<Contact, 'id'>>()
-  const contact = await c.req.parseBody<Record<string, string>>()
 
   const contactWithErrors = validateContact(newContact)
 
   if (contactWithErrors.errors) {
     return c.render(
       <Layout>
-        <NewContact contact={contactWithErrors} action={`/contacts/${contact.id}/edit`} method='POST' />
+        <NewContact contact={contactWithErrors} action='/contacts/new' method='POST' />
         <p>
           <a href="/contacts">Back</a>
         </p>
@@ -196,6 +195,33 @@ demo.delete('/contacts/:id', async (c) => {
     .execute()
 
   return c.redirect('/contacts', 303)
+
+})
+
+demo.get('/contacts/:id/email', async (c) => {
+  const email = c.req.query('email')
+
+  const existingContact = await db
+    .selectFrom('contacts')
+    .where('email', '=', email!)
+    .selectAll()
+    .executeTakeFirst()
+
+  if (existingContact) {
+    return c.text(
+      'Email already taken'
+    )
+  }
+
+  return c.text('')
+
+  // const existingContact = await db
+  //   .selectFrom('contacts')
+  //   .where('id', '=', Number(id))
+  //   .select('email')
+  //   .executeTakeFirst()
+
+  // if (existingContact !== undefined) {
 
 })
 // demo.get('/', (c) => {
