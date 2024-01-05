@@ -13,6 +13,7 @@ export default function NewContact({ contact, action, method }: { contact: Conta
             type="email"
             placeholder="Email"
             hx-get={`/contacts/${contact.id}/email`}
+            hx-trigger="change, keyup delay:500ms changed"
             hx-target="next .error"
             value={contact.email ?? ''}
           />
