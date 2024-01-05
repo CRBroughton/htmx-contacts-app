@@ -22,6 +22,11 @@ interface ContactErrors {
     email?: string
 }
 
-export interface ContactWithErrors extends Omit<Contact, 'id'> {
+export interface ContactWithErrors {
+    id?: number
+    first?: string
+    last?: string
+    phone?: string
+    email?: string
     errors?: ContactErrors
 }

@@ -150,15 +150,27 @@ demo.get('/contacts/:id/edit', async (c) => {
 })
 
 demo.post('/contacts/:id/edit', async (c) => {
-  const newContact = await c.req.parseBody<Omit<Contact, 'id'>>()
-  const contact = await c.req.parseBody<Record<string, string>>()
+  const id = c.req.param('id')
+  const currentContact = await c.req.parseBody() as unknown as Contact
 
-  const contactWithErrors = validateContact(newContact)
+  const storedContact = await db
+    .selectFrom('contacts')
+    .where('id', '=', Number(id))
+    .selectAll()
+    .executeTakeFirstOrThrow()
+
+  const contactWithErrors = validateContact(currentContact)
 
   if (contactWithErrors.errors) {
     return c.render(
       <Layout>
-        <NewContact contact={contactWithErrors} action={`/contacts/${contact.id}/edit`} method='POST' />
+        <NewContact contact={contactWithErrors} action={`/contacts/${storedContact.id}/edit`} method='POST' />
+        <button
+          hx-delete={`/contacts/${storedContact.id}`}
+          hx-target="body"
+          hx-confirm="Are you sure you want to delete this contact?"
+          hx-push-url="true"
+        >Delete Contact</button>
         <p>
           <a href="/contacts">Back</a>
         </p>
@@ -168,7 +180,7 @@ demo.post('/contacts/:id/edit', async (c) => {
 
   await db
     .updateTable('contacts')
-    .set(newContact)
+    .set(currentContact)
     .where('id', '=', Number(c.req.param('id')))
     .execute()
   return c.redirect('/contacts')
