@@ -59,6 +59,16 @@ demo.get('/contacts', async (c) => {
     .limit(10)
     .execute()
 
+  if (contacts.length === 0) {
+    return c.render(
+      <Layout>
+        <ContactsForm input={''} />
+        <ContactTable contacts={contacts}  page={undefined}  />
+        <AddContact />
+      </Layout>
+    )
+  }
+
   return c.render(
     <Layout>
       <ContactsForm input={''} />
@@ -66,7 +76,6 @@ demo.get('/contacts', async (c) => {
       <AddContact />
     </Layout>
   )
-  // return c.text('Hello from the contacts page')
 })
 
 demo.get('/contacts/new', (c) => {
