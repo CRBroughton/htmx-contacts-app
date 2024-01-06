@@ -45,7 +45,7 @@ demo.get('/contacts', async (c) => {
       return c.render(
         <Layout>
           <ContactsForm input={searchTerm} />
-          <ContactTable contacts={[ filteredContact! ]}  page={Number(pageNum)}  />
+          <ContactTable contacts={[ filteredContact! ]}  page={undefined}  />
           <AddContact />
         </Layout>
       )
@@ -59,23 +59,16 @@ demo.get('/contacts', async (c) => {
     .limit(10)
     .execute()
 
-  if (contacts.length === 0) {
+  if (contacts.length > 0) {
     return c.render(
       <Layout>
         <ContactsForm input={''} />
-        <ContactTable contacts={contacts}  page={undefined}  />
+        <ContactTable contacts={contacts}  page={Number(pageNum)}  />
         <AddContact />
       </Layout>
     )
   }
 
-  return c.render(
-    <Layout>
-      <ContactsForm input={''} />
-      <ContactTable contacts={contacts}  page={Number(pageNum)}  />
-      <AddContact />
-    </Layout>
-  )
 })
 
 demo.get('/contacts/new', (c) => {
