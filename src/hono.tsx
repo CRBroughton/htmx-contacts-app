@@ -5,13 +5,14 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 const hono = new Hono()
 
 hono.use('/styles.css', serveStatic({ path: './styles.css' }))
+hono.use('/public/*', serveStatic({ root: './' }))
 hono.use(
   '*',
   jsxRenderer(({ children }) => {
     return (
       <html>
         <head>
-          <script src="https://unpkg.com/htmx.org@1.9.3"/>
+          <script src="public/htmx-1.9.3.min.js"/>
           <link rel="stylesheet" href="/styles.css"/>
           <title>Hono + htmx</title>
         </head>
