@@ -12,8 +12,10 @@ export default function ContactsForm({ input }: { input: string }) {
         hx-trigger="change, keyup delay:200ms changed"
         hx-target="tbody"
         hx-select="tbody tr"
+        hx-push-url="true"
+        hx-indicator="#spinner"
       />
-      <input class="bg-slate-300 p-2 rounded" type="submit" value="Search"/>
+      <img width={25} id="spinner" class="htmx-indicator" src="public/spinner.svg" alt="Request In Flight..."/>
     </form>
   )
 }

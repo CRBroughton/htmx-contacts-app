@@ -1,0 +1,48 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  style="margin: auto; background: transparent; display: block; shape-rendering: auto;"
+  width="200px"
+  height="200px"
+  viewBox="0 0 100 100"
+  preserveAspectRatio="xMidYMid"
+  class="lds-dual-ring"
+>
+  <circle
+    cx="50"
+    cy="50"
+    fill="none"
+    stroke="#007bff"
+    stroke-width="10"
+    r="40"
+    stroke-dasharray="188.49555921538757 64.83185307179586"
+  >
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      repeatCount="indefinite"
+      dur="1s"
+      values="0 50 50;360 50 50"
+      keyTimes="0;1"
+    ></animateTransform>
+  </circle>
+  <circle
+    cx="50"
+    cy="50"
+    fill="none"
+    stroke="#e5e5e5"
+    stroke-width="10"
+    r="35"
+    stroke-dasharray="164.93361431346415 74.4083288280051"
+    transform="rotate(72 50 50)"
+  >
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      repeatCount="indefinite"
+      dur="1s"
+      values="0 50 50;360 50 50"
+      keyTimes="0;1"
+    ></animateTransform>
+  </circle>
+</svg>
