@@ -8,7 +8,6 @@ import { db } from '@/db'
 import { ContactWithErrors, Contact } from '@/schema'
 import ContactDetail from '@/components/ContactDetails'
 import { validateContact } from '@/utils'
-import Pagination from '@/components/Pagination'
 
 const demo = new Hono()
 
@@ -36,7 +35,7 @@ demo.get('/contacts', async (c) => {
       return c.render(
         <Layout>
           <ContactsForm input={''} />
-          <ContactTable contacts={contacts} />
+          <ContactTable contacts={contacts} page={Number(pageNum)} />
           <AddContact />
         </Layout>
       )
@@ -46,7 +45,7 @@ demo.get('/contacts', async (c) => {
       return c.render(
         <Layout>
           <ContactsForm input={searchTerm} />
-          <ContactTable contacts={[ filteredContact! ]} />
+          <ContactTable contacts={[ filteredContact! ]}  page={Number(pageNum)}  />
           <AddContact />
         </Layout>
       )
@@ -63,8 +62,7 @@ demo.get('/contacts', async (c) => {
   return c.render(
     <Layout>
       <ContactsForm input={''} />
-      <ContactTable contacts={contacts} />
-      <Pagination page={Number(pageNum)} contacts={contacts}/>
+      <ContactTable contacts={contacts}  page={Number(pageNum)}  />
       <AddContact />
     </Layout>
   )

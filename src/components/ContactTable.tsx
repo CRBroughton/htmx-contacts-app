@@ -1,7 +1,8 @@
 import { Contact } from '@/schema'
 import ContactEntry from './ContactEntry'
+import PaginationButton from './Pagination'
 
-export default function ContactTable({ contacts }: { contacts: Contact[] }) {
+export default function ContactTable({ contacts, page }: { contacts: Contact[], page: number }) {
   return (
     <table class="text-left">
       <thead>
@@ -17,6 +18,7 @@ export default function ContactTable({ contacts }: { contacts: Contact[] }) {
         {contacts.map((contact) =>
           <ContactEntry contact={contact}/>
         )}
+        <PaginationButton page={page} />
       </tbody>
     </table>
   )
