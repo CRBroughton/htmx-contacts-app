@@ -7,7 +7,8 @@
     "dev": "concurrently \"bun run --watch src/index.ts\" \"bun run tailwind:dev\"",
     "migrate": "bun run src/db.ts",
     "seed": "bun run src/seeders/seeder.ts",
-    "build": "bun build --outfile dist/server --compile ./src/index.tx",
+    "build": "bun build --outfile dist/server --compile ./src/index.ts"
+    ,
     "lint:check": "eslint \"src/*.{tsx,ts}\"",
     "lint:fix": "eslint \"src/*.{tsx,ts}\" --fix",
     "tailwind:dev": "bunx tailwindcss -i ./src/styles.css -o ./styles.css --watch",
