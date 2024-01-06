@@ -8,6 +8,7 @@ import { db } from '@/db'
 import { ContactWithErrors, Contact } from '@/schema'
 import ContactDetail from '@/components/ContactDetails'
 import { validateContact } from '@/utils'
+import Pagination from '@/components/Pagination'
 
 const demo = new Hono()
 
@@ -17,6 +18,7 @@ demo.get('/', (c) => {
 
 demo.get('/contacts', async (c) => {
   const searchTerm = c.req.query('q')
+  const pageNum = c.req.query('page') ?? 0
 
   if (searchTerm !== undefined && searchTerm.length > 0) {
 
@@ -27,7 +29,10 @@ demo.get('/contacts', async (c) => {
       .executeTakeFirst()
 
     if (filteredContact === undefined) {
-      const contacts = await db.selectFrom('contacts').selectAll().execute()
+      const contacts = await db
+        .selectFrom('contacts')
+        .selectAll()
+        .execute()
       return c.render(
         <Layout>
           <ContactsForm input={''} />
@@ -51,12 +56,15 @@ demo.get('/contacts', async (c) => {
   const contacts = await db
     .selectFrom('contacts')
     .selectAll()
+    .offset(Number(pageNum + '0'))
+    .limit(10)
     .execute()
 
   return c.render(
     <Layout>
       <ContactsForm input={''} />
       <ContactTable contacts={contacts} />
+      <Pagination page={Number(pageNum)} contacts={contacts}/>
       <AddContact />
     </Layout>
   )
@@ -214,14 +222,6 @@ demo.get('/contacts/:id/email', async (c) => {
   }
 
   return c.text('')
-
-  // const existingContact = await db
-  //   .selectFrom('contacts')
-  //   .where('id', '=', Number(id))
-  //   .select('email')
-  //   .executeTakeFirst()
-
-  // if (existingContact !== undefined) {
 
 })
 // demo.get('/', (c) => {

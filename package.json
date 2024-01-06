@@ -14,7 +14,8 @@
     "tailwind:build": "bunx tailwindcss -i ./src/styles.css -o ./styles.css",
     "changeset": "npx changeset",
     "changeset:status": "npx changeset status --verbose",
-    "changeset:version": "npx changeset version"
+    "changeset:version": "npx changeset version",
+    "postinstall": "bun run migrate && bun run seed && bun run dev"
   },
   "dependencies": {
     "@changesets/cli": "^2.26.2",
