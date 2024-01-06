@@ -8,6 +8,7 @@ import { db } from '@/db'
 import { ContactWithErrors, Contact } from '@/schema'
 import ContactDetail from '@/components/ContactDetails'
 import { validateContact } from '@/utils'
+import ContactsRows from '@/components/ContactsRows'
 
 const demo = new Hono()
 
@@ -18,9 +19,9 @@ demo.get('/', (c) => {
 demo.get('/contacts', async (c) => {
   const searchTerm = c.req.query('q')
   const pageNum = c.req.query('page') ?? 0
+  const triggerSearch = c.req.header('HX-Trigger') === 'search'
 
   if (searchTerm !== undefined && searchTerm.length > 0) {
-
     const filteredContact = await db
       .selectFrom('contacts')
       .where('first', '=', searchTerm)
@@ -41,13 +42,9 @@ demo.get('/contacts', async (c) => {
       )
     }
 
-    if (filteredContact !== undefined) {
-      return c.render(
-        <Layout>
-          <ContactsForm input={searchTerm} />
-          <ContactTable contacts={[ filteredContact! ]}  page={undefined}  />
-          <AddContact />
-        </Layout>
+    if (filteredContact !== undefined && triggerSearch === true) {
+      return c.html(
+        <ContactsRows contacts={[ filteredContact ]}/>
       )
     }
   }
