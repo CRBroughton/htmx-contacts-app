@@ -36,8 +36,8 @@ demo.get('/contacts', async (c) => {
       return c.render(
         <Layout>
           <ContactsForm input={''} />
-          <ContactTable contacts={contacts} page={Number(pageNum)} />
           <AddContact />
+          <ContactTable contacts={contacts} page={Number(pageNum)} />
         </Layout>
       )
     }
@@ -60,12 +60,23 @@ demo.get('/contacts', async (c) => {
     return c.render(
       <Layout>
         <ContactsForm input={''} />
-        <ContactTable contacts={contacts}  page={Number(pageNum)}  />
         <AddContact />
+        <ContactTable contacts={contacts}  page={Number(pageNum)}  />
       </Layout>
     )
   }
 
+})
+
+demo.get('/contacts/count', async (c) => {
+  const contacts = await db
+    .selectFrom('contacts')
+    .selectAll()
+    .execute()
+  const contactCount = contacts.length
+  return c.html(
+    <p>{contactCount} total Contacts</p>
+  )
 })
 
 demo.get('/contacts/new', (c) => {
