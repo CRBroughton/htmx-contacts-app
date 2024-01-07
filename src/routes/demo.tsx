@@ -221,6 +221,18 @@ demo.delete('/contacts/:id', async (c) => {
 
 })
 
+demo.delete('/contacts', async (c) => {
+  const contactIDs = (await c.req.formData()).getAll('selected_contact_ids') as unknown as number[]
+
+  contactIDs.forEach(id => {
+    db
+      .deleteFrom('contacts')
+      .where('id', '=', id)
+      .execute()
+  })
+  return c.redirect('/contacts', 303)
+})
+
 demo.get('/contacts/:id/email', async (c) => {
   const email = c.req.query('email')
 

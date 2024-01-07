@@ -5,6 +5,7 @@ export default function ContactsRows({ contacts }: { contacts: Contact[] }) {
     <>
       {contacts.map((contact) =>
         <tr>
+          <td><input type="checkbox" name="selected_contact_ids" value={contact.id}/></td>
           <td>{contact.first}</td>
           <td>{contact.last}</td>
           <td>{contact.phone}</td>
