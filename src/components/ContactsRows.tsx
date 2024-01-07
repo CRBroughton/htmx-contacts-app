@@ -16,7 +16,8 @@ export default function ContactsRows({ contacts }: { contacts: Contact[] }) {
               href="#"
               hx-delete={`/contacts/${contact.id}`}
               hx-confirm="Are you sure you want to delete this contact?"
-              hx-target="body">
+              hx-target="closest tr"
+              hx-swap="outerHTML swap:0.5s">
                 Delete
             </a>
           </td>

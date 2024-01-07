@@ -150,6 +150,7 @@ demo.get('/contacts/:id/edit', async (c) => {
       <Layout>
         <NewContact contact={contact} action={`/contacts/${contact.id}/edit`} method='POST' />
         <button
+          id="delete-btn"
           hx-delete={`/contacts/${contact.id}`}
           hx-target="body"
           hx-confirm="Are you sure you want to delete this contact?"
@@ -181,6 +182,7 @@ demo.post('/contacts/:id/edit', async (c) => {
       <Layout>
         <NewContact contact={contactWithErrors} action={`/contacts/${storedContact.id}/edit`} method='POST' />
         <button
+          id="delete-btn"
           hx-delete={`/contacts/${storedContact.id}`}
           hx-target="body"
           hx-confirm="Are you sure you want to delete this contact?"
@@ -204,11 +206,16 @@ demo.post('/contacts/:id/edit', async (c) => {
 
 demo.delete('/contacts/:id', async (c) => {
   const id = c.req.param('id')
+  const deleteFromMainPage = c.req.header('HX-Trigger') !== 'delete-btn'
 
   db
     .deleteFrom('contacts')
     .where('id', '=', Number(id))
     .execute()
+
+  if (deleteFromMainPage === true) {
+    return c.html('')
+  }
 
   return c.redirect('/contacts', 303)
 
