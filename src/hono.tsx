@@ -8,6 +8,9 @@ hono.use('/styles.css', serveStatic({ path: './styles.css' }))
 hono.use('custom.css', serveStatic({
   path: './custom.css'
 }))
+hono.use('ws.js', serveStatic({
+  path: './ws.js'
+}))
 hono.use('/public/*', serveStatic({ root: './' }))
 hono.use(
   '*',
@@ -18,6 +21,7 @@ hono.use(
           <script src="public/htmx-1.9.10.min.js"/>
           <link rel="stylesheet" href="/styles.css"/>
           <link rel="stylesheet" href="/custom.css"/>
+          <script src="./ws.js"></script>
           <title>Hono + htmx</title>
         </head>
         <body hx-boost="true">

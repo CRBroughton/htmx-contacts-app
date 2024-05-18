@@ -9,12 +9,31 @@ import { ContactWithErrors, Contact } from '@/schema'
 import ContactDetail from '@/components/ContactDetails'
 import { validateContact } from '@/utils'
 import ContactsRows from '@/components/ContactsRows'
+import { createBunWebSocket } from 'hono/bun'
 
 const demo = new Hono()
 
 demo.get('/', (c) => {
   return c.redirect('/contacts', 301)
 })
+
+const { upgradeWebSocket, websocket } = createBunWebSocket()
+const randomUUID = crypto.randomUUID()
+
+demo.get(
+  '/ws/hotreload',
+  upgradeWebSocket(() => {
+    return {
+      onMessage(event, ws) {
+        console.log(`Message from client: ${event.data}`)
+        ws.send('Hello from server!')
+      },
+      onClose: () => {
+        console.log('Connection closed')
+      },
+    }
+  })
+)
 
 demo.get('/contacts', async (c) => {
   const searchTerm = c.req.query('q')
@@ -268,4 +287,7 @@ demo.get('/contacts/:id/email', async (c) => {
 //   return c.html(<CustomButton num={5}/>)
 // })
 
-export default demo
+export {
+  demo,
+  websocket
+}
