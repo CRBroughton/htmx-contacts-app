@@ -25,10 +25,10 @@ demo.get(
   upgradeWebSocket(() => {
     return {
       onMessage(event, ws) {
-        console.log(`Message from client: ${event.data}`)
-        ws.send('Hello from server!')
+        ws.send(randomUUID)
       },
       onClose: () => {
+        // eslint-disable-next-line no-console
         console.log('Connection closed')
       },
     }

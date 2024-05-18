@@ -33,6 +33,7 @@
       }
 
       if (lastUuid !== event.data) {
+        // eslint-disable-next-line no-console
         console.log('[Hot Reloader] Server Changed, reloading')
         location.reload()
       }
