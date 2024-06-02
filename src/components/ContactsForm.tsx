@@ -1,10 +1,10 @@
 export default function ContactsForm({ input }: { input: string }) {
   return (
     <form action="/contacts" method="get" class="flex gap-2 items-center">
-      <label for="search">Search Term</label>
       <input
         class="p-2"
         id="search"
+        placeholder="Search..."
         type="search"
         name="q"
         value={input}

@@ -14,6 +14,7 @@ export default function ContactTable({ contacts, page }: { contacts: Contact[], 
             <th>Last</th>
             <th>Phone</th>
             <th>Email</th>
+            <th>Action</th>
           </tr>
         </thead>
         <div class="border border-slate-800"/>

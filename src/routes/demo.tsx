@@ -10,7 +10,7 @@ import { createBunWebSocket } from 'hono/bun'
 import hono from '@/hono'
 import { db } from '@/db/db'
 import { Contact, ContactWithErrors } from '@/db/schema'
-import LoginForm from '@/components/LoginForm'
+import LoginForm  from '@/components/LoginForm'
 import { lucia } from '@/db/lucia'
 
 hono.get('/', async(c) => {
@@ -73,8 +73,12 @@ hono.post('/', async(c) => {
       const cookie = lucia.createSessionCookie(session.id)
       c.header('Set-Cookie', cookie.serialize(), { append: true })
       return c.redirect('/contacts', 301)
+    } if (passwordMatches === false ) {
+      return c.render(<LoginForm passwordSmall={
+        <small>Wrong password</small>
+      }>
+      </LoginForm>)
     }
-    return c.render(<div>TODO - add a HTMX popup here when login failed</div>)
   }
 })
 
