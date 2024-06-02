@@ -4,7 +4,7 @@ import { csrf } from 'hono/csrf'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Session, User } from 'lucia'
 import { authMiddleware } from './db/middleware'
-
+import { logger } from 'hono/logger'
 export const hono = new Hono<{
 	Variables: {
 		user: User | null
@@ -14,7 +14,7 @@ export const hono = new Hono<{
 
 hono.use(csrf())
 hono.use('*', authMiddleware)
-
+hono.use('*', logger())
 hono.use('/styles.css', serveStatic({ path: './styles.css' }))
 hono.use('custom.css', serveStatic({
   path: './custom.css'

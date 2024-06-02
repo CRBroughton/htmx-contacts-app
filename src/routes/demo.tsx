@@ -90,7 +90,7 @@ hono.get(
       },
       onClose: () => {
         // eslint-disable-next-line no-console
-        console.log('Connection closed')
+        console.log('WS Connection closed')
       },
     }
   })
