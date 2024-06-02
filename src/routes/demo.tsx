@@ -24,6 +24,22 @@ hono.get('/', async(c) => {
   return c.render(<LoginForm/>)
 })
 
+hono.post('/logout', async(c) => {
+  const session = c.get('session')
+  const user = c.get('user')
+  if (session && !user) {
+    await lucia.validateSession(session.id)
+  }
+  if (session && user) {
+    await lucia.invalidateUserSessions(user.id)
+  }
+
+  const cookie = lucia.createBlankSessionCookie()
+  c.header('Set-Cookie', cookie.serialize(), { append: true })
+
+  return c.redirect('/')
+})
+
 hono.post('/', async(c) => {
   const { username, password } = await c.req.parseBody<{username: string, password: string}>()
   const user = await db
@@ -81,6 +97,13 @@ hono.get(
 )
 
 hono.get('/contacts', async (c) => {
+  const user = c.get('user')
+  const session = c.get('session')
+
+  if (!user && !session) {
+    return c.redirect('/', 301)
+  }
+
   const searchTerm = c.req.query('q')
   const pageNum = c.req.query('page') ?? 0
   const triggerSearch = c.req.header('HX-Trigger') === 'search'
