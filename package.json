@@ -24,6 +24,8 @@
     "hono": "^4.3.7",
     "kysely": "^0.26.3",
     "kysely-bun-sqlite": "^0.2.2",
+    "lucia": "^3.2.0",
+    "@lucia-auth/adapter-sqlite": "^3.0.1",
     "tailwindcss": "^3.4.0"
   },
   "devDependencies": {

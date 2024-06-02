@@ -8,8 +8,20 @@ interface ContactsTable {
     email: string
 }
 
+interface UserTable {
+    id: string
+}
+
+interface SessionTable {
+    id: string
+    user_id: string
+    expires_at: Date
+}
+
 export interface KyselyDatabase {
     contacts: ContactsTable
+    user: UserTable
+    session: SessionTable
 }
 export type Contact = Selectable<ContactsTable>
 
