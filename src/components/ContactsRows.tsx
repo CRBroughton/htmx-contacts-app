@@ -10,7 +10,7 @@ export default function ContactsRows({ contacts }: { contacts: Contact[] }) {
           <td>{contact.last}</td>
           <td>{contact.phone}</td>
           <td>{contact.email}</td>
-          <td>
+          <td class="flex gap-1">
             <a href={`/contacts/${contact.id}/edit`}>Edit</a>
             <a href={`/contacts/${contact.id}`}>View</a>
             <a
