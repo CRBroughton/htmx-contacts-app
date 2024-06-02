@@ -11,6 +11,7 @@ interface ContactsTable {
 export interface UserTable {
     id: Generated<number>
     username: string
+    password_hash: string
 }
 
 interface SessionTable {

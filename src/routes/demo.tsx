@@ -17,7 +17,7 @@ hono.get('/', async(c) => {
 })
 
 hono.post('/', async(c) => {
-  const { username } = await c.req.parseBody<{username: string, password: string}>()
+  const { username, password } = await c.req.parseBody<{username: string, password: string}>()
 
   const user = await db
     .selectFrom('user')
@@ -27,7 +27,7 @@ hono.post('/', async(c) => {
 
   if (user === undefined) {
     await db.insertInto('user')
-      .values({ username })
+      .values({ username, password_hash: await Bun.password.hash(password) })
       .executeTakeFirstOrThrow()
 
     return c.redirect('/contacts', 301)
