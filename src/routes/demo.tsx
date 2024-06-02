@@ -33,8 +33,15 @@ hono.post('/', async(c) => {
     return c.redirect('/contacts', 301)
 
   }
-  return c.redirect('/contacts', 301)
 
+  if (user !== undefined) {
+    const passwordMatches = await Bun.password.verify(password, user.password_hash)
+
+    if (passwordMatches === true) {
+      return c.redirect('/contacts', 301)
+    }
+  }
+  return c.render(<div>TODO - add a HTMX popup here</div>)
 })
 
 const { upgradeWebSocket, websocket } = createBunWebSocket()
