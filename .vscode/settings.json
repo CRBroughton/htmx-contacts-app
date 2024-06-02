@@ -21,16 +21,16 @@
     "typescript.tsdk": "node_modules/typescript/lib",
     "files.exclude": {
         // Hide all dot-folders and dot-files
-        "**/.*": true,
-        // Hide the node_modules folder
-        "**/node_modules": true,
-        // Hide all configuration files
-        "src/hono.tsx": true,
-        "bun.lockb": true,
-        "package.json": true,
-        // "README.md": true,
-        "src/styles.css": true,
-        "src/db.ts": true,
-        "tsconfig.json": true,
+        // "**/.*": true,
+        // // Hide the node_modules folder
+        // "**/node_modules": true,
+        // // Hide all configuration files
+        // "src/hono.tsx": true,
+        // "bun.lockb": true,
+        // "package.json": true,
+        // // "README.md": true,
+        // "src/styles.css": true,
+        // "src/db.ts": true,
+        // "tsconfig.json": true,
     }
 }

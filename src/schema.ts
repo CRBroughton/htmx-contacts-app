@@ -8,8 +8,9 @@ interface ContactsTable {
     email: string
 }
 
-interface UserTable {
+export interface UserTable {
     id: string
+    username: string
 }
 
 interface SessionTable {

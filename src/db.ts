@@ -5,32 +5,14 @@ import { BunSqliteDialect } from 'kysely-bun-sqlite'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { KyselyDatabase } from '@/schema'
-import { Lucia } from 'lucia'
-import { BunSQLiteAdapter } from '@lucia-auth/adapter-sqlite'
 
-const sqliteDB = new Database('db.sqlite')
+export const sqliteDB = new Database('db.sqlite')
 
 export const db = new Kysely<KyselyDatabase>({
   dialect: new BunSqliteDialect({
     database: sqliteDB,
   }),
 })
-
-const adapter = new BunSQLiteAdapter(sqliteDB, { user: 'userTable', session: 'sessionTable' })
-export const lucia = new Lucia(adapter, {
-  sessionCookie: {
-    attributes: {
-      // set to `true` when using HTTPS
-      secure: process.env.NODE_ENV === 'production'
-    }
-  }
-})
-
-declare module 'lucia' {
-	interface Register {
-		Lucia: typeof lucia
-	}
-}
 
 async function migrateToLatest() {
   const migrator = new Migrator({
