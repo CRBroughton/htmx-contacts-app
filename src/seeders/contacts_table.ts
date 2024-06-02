@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { faker } from '@faker-js/faker'
-import { db } from '@/db'
+import { db } from '@/db/db'
 
 export default async function contactsSeeder() {
   await db.deleteFrom('contacts').where('first', '=', 'John').execute()

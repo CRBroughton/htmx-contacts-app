@@ -3,24 +3,22 @@ import ContactTable from '@/components/ContactTable'
 import ContactsForm from '@/components/ContactsForm'
 import { Layout } from '@/components/Layout'
 import NewContact from '@/pages/NewContact'
-import { Hono } from 'hono'
-import { db } from '@/db'
-import { ContactWithErrors, Contact } from '@/schema'
 import ContactDetail from '@/components/ContactDetails'
 import { validateContact } from '@/utils'
 import ContactsRows from '@/components/ContactsRows'
 import { createBunWebSocket } from 'hono/bun'
+import hono from '@/hono'
+import { db } from '@/db/db'
+import { Contact, ContactWithErrors } from '@/db/schema'
 
-const demo = new Hono()
-
-demo.get('/', (c) => {
+hono.get('/', (c) => {
   return c.redirect('/contacts', 301)
 })
 
 const { upgradeWebSocket, websocket } = createBunWebSocket()
 const randomUUID = crypto.randomUUID()
 
-demo.get(
+hono.get(
   '/ws/hotreload',
   upgradeWebSocket(() => {
     return {
@@ -35,7 +33,7 @@ demo.get(
   })
 )
 
-demo.get('/contacts', async (c) => {
+hono.get('/contacts', async (c) => {
   const searchTerm = c.req.query('q')
   const pageNum = c.req.query('page') ?? 0
   const triggerSearch = c.req.header('HX-Trigger') === 'search'
@@ -87,7 +85,7 @@ demo.get('/contacts', async (c) => {
 
 })
 
-demo.get('/contacts/count', async (c) => {
+hono.get('/contacts/count', async (c) => {
   const contacts = await db
     .selectFrom('contacts')
     .selectAll()
@@ -98,7 +96,7 @@ demo.get('/contacts/count', async (c) => {
   )
 })
 
-demo.get('/contacts/new', (c) => {
+hono.get('/contacts/new', (c) => {
   const newContact: ContactWithErrors = {
     email: '',
     first: '',
@@ -115,7 +113,7 @@ demo.get('/contacts/new', (c) => {
   )
 })
 
-demo.post('/contacts/new', async (c) => {
+hono.post('/contacts/new', async (c) => {
   const newContact = await c.req.parseBody<Omit<Contact, 'id'>>()
 
   const contactWithErrors = validateContact(newContact)
@@ -138,7 +136,7 @@ demo.post('/contacts/new', async (c) => {
 
 })
 
-demo.get('/contacts/:id', async (c) => {
+hono.get('/contacts/:id', async (c) => {
   const id = c.req.param('id')
   const contact = await db
     .selectFrom('contacts')
@@ -155,7 +153,7 @@ demo.get('/contacts/:id', async (c) => {
   return c.redirect('/contacts')
 })
 
-demo.get('/contacts/:id/edit', async (c) => {
+hono.get('/contacts/:id/edit', async (c) => {
   const id = c.req.param('id')
 
   const contact = await db
@@ -184,7 +182,7 @@ demo.get('/contacts/:id/edit', async (c) => {
   return c.redirect('/contacts')
 })
 
-demo.post('/contacts/:id/edit', async (c) => {
+hono.post('/contacts/:id/edit', async (c) => {
   const id = c.req.param('id')
   const currentContact = await c.req.parseBody() as unknown as Contact
 
@@ -223,7 +221,7 @@ demo.post('/contacts/:id/edit', async (c) => {
 
 })
 
-demo.delete('/contacts/:id', async (c) => {
+hono.delete('/contacts/:id', async (c) => {
   const id = c.req.param('id')
   const deleteFromMainPage = c.req.header('HX-Trigger') !== 'delete-btn'
 
@@ -240,7 +238,7 @@ demo.delete('/contacts/:id', async (c) => {
 
 })
 
-demo.delete('/contacts', async (c) => {
+hono.delete('/contacts', async (c) => {
   const contactIDs = (await c.req.formData()).getAll('selected_contact_ids') as unknown as number[]
 
   contactIDs.forEach(id => {
@@ -252,7 +250,7 @@ demo.delete('/contacts', async (c) => {
   return c.redirect('/contacts', 303)
 })
 
-demo.get('/contacts/:id/email', async (c) => {
+hono.get('/contacts/:id/email', async (c) => {
   const email = c.req.query('email')
 
   const existingContact = await db
@@ -270,12 +268,12 @@ demo.get('/contacts/:id/email', async (c) => {
   return c.text('')
 
 })
-// demo.get('/', (c) => {
+// hono.get('/', (c) => {
 //   return c.render(<div><Test numbers={numbers} /></div>
 //   )
 // })
 
-// demo.get('/id/:id', async (c) => {
+// hono.get('/id/:id', async (c) => {
 //   const test = await db.selectFrom('pet')
 //     .where('id', '=', 1)
 //     .selectAll()
@@ -288,6 +286,6 @@ demo.get('/contacts/:id/email', async (c) => {
 // })
 
 export {
-  demo,
+  hono,
   websocket
 }

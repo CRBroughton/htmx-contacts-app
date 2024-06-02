@@ -1,22 +1,13 @@
 // src/middleware.ts
 import { getCookie } from 'hono/cookie'
 import { csrf } from 'hono/csrf'
-import { Hono } from 'hono'
-
-import type { User, Session } from 'lucia'
 import { lucia } from './lucia'
-
-const app = new Hono<{
-	Variables: {
-		user: User | null;
-		session: Session | null;
-	};
-}>()
+import hono from '@/hono'
 
 // see https://hono.dev/middleware/builtin/csrf for more options
-app.use(csrf())
+hono.use(csrf())
 
-app.use('*', async (c, next) => {
+hono.use('*', async (c, next) => {
   const sessionId = getCookie(c, lucia.sessionCookieName) ?? null
   if (!sessionId) {
     c.set('user', null)

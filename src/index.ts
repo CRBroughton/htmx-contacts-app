@@ -1,7 +1,7 @@
 import hono from '@/hono'
-import { demo, websocket } from '@/routes/demo'
+import { hono as honoApp, websocket } from '@/routes/demo'
 
-hono.route('/', demo)
+hono.route('/', honoApp)
 
 Bun.serve({
   fetch: hono.fetch,

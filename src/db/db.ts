@@ -4,7 +4,7 @@ import {  Kysely, Migrator , FileMigrationProvider } from 'kysely'
 import { BunSqliteDialect } from 'kysely-bun-sqlite'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { KyselyDatabase } from '@/schema'
+import { KyselyDatabase } from './schema'
 
 export const sqliteDB = new Database('db.sqlite')
 

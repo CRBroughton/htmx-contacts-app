@@ -1,8 +1,14 @@
 import { Hono  } from 'hono'
 import { serveStatic } from 'hono/bun'
 import { jsxRenderer } from 'hono/jsx-renderer'
+import { Session, User } from 'lucia'
 
-const hono = new Hono()
+export const hono = new Hono<{
+	Variables: {
+		user: User | null
+		session: Session | null
+	};
+}>()
 
 hono.use('/styles.css', serveStatic({ path: './styles.css' }))
 hono.use('custom.css', serveStatic({
