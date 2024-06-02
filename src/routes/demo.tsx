@@ -11,6 +11,7 @@ import hono from '@/hono'
 import { db } from '@/db/db'
 import { Contact, ContactWithErrors } from '@/db/schema'
 import LoginForm from '@/components/LoginForm'
+import { lucia } from '@/db/lucia'
 
 hono.get('/', async(c) => {
   return c.render(<LoginForm/>)
@@ -18,7 +19,6 @@ hono.get('/', async(c) => {
 
 hono.post('/', async(c) => {
   const { username, password } = await c.req.parseBody<{username: string, password: string}>()
-
   const user = await db
     .selectFrom('user')
     .where('user.username', '=', username)
@@ -27,21 +27,32 @@ hono.post('/', async(c) => {
 
   if (user === undefined) {
     await db.insertInto('user')
-      .values({ username, password_hash: await Bun.password.hash(password) })
-      .executeTakeFirstOrThrow()
+      .values({ id: crypto.randomUUID(), username, password_hash: await Bun.password.hash(password) })
+      .execute()
 
-    return c.redirect('/contacts', 301)
+    const user = await db
+      .selectFrom('user')
+      .where('user.username', '=', username.toLowerCase())
+      .selectAll()
+      .executeTakeFirst()
 
-  }
-
-  if (user !== undefined) {
-    const passwordMatches = await Bun.password.verify(password, user.password_hash)
-
-    if (passwordMatches === true) {
+    if (user && user.id) {
+      const session = await lucia.createSession(user?.id, {})
+      const cookie = lucia.createSessionCookie(session.id)
+      c.header('Set-Cookie', cookie.serialize(), { append: true })
       return c.redirect('/contacts', 301)
     }
+
+  } else {
+    const passwordMatches = await Bun.password.verify(password, user.password_hash)
+    if (passwordMatches === true) {
+      const session = await lucia.createSession(user.id, {})
+      const cookie = lucia.createSessionCookie(session.id)
+      c.header('Set-Cookie', cookie.serialize(), { append: true })
+      return c.redirect('/contacts', 301)
+    }
+    return c.render(<div>TODO - add a HTMX popup here when login failed</div>)
   }
-  return c.render(<div>TODO - add a HTMX popup here</div>)
 })
 
 const { upgradeWebSocket, websocket } = createBunWebSocket()

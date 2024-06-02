@@ -3,7 +3,11 @@ import { BunSQLiteAdapter } from '@lucia-auth/adapter-sqlite'
 import { sqliteDB } from './db'
 import { UserTable } from './schema'
 
-const adapter = new BunSQLiteAdapter(sqliteDB, { user: 'userTable', session: 'sessionTable' })
+const adapter = new BunSQLiteAdapter(sqliteDB, {
+  user: 'user',
+  session: 'session'
+}
+)
 
 export const lucia = new Lucia(adapter, {
   sessionCookie: {

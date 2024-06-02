@@ -9,15 +9,15 @@ interface ContactsTable {
 }
 
 export interface UserTable {
-    id: Generated<number>
+    id: Generated<string>
     username: string
     password_hash: string
 }
 
 interface SessionTable {
-    id: Generated<number>
-    user_id: string
-    expires_at: Date
+	id: string
+	user_id: string
+	expires_at: Date
 }
 
 export interface KyselyDatabase {

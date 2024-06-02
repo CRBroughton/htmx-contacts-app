@@ -4,9 +4,9 @@ import { KyselyDatabase } from '../schema'
 export async function up(db: Kysely<KyselyDatabase>): Promise<void> {
   await db.schema
     .createTable('session')
-    .addColumn('id', 'integer', (col) => col.primaryKey().autoIncrement())
-    .addColumn('user_id', 'varchar')
-    .addColumn('expires_at', 'date')
+    .addColumn('id', 'text', (col) => col.primaryKey())
+    .addColumn('user_id', 'text')
+    .addColumn('expires_at', 'integer')
     .execute()
 }
 
