@@ -1,4 +1,4 @@
-import type { Contact, ContactWithErrors } from './schema'
+import type { Contact, ContactWithErrors } from './db/schema'
 
 export function validateContact(newContact: Omit<Contact, 'id'>) {
   let contactWithErrors: ContactWithErrors = {

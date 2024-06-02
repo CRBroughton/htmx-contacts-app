@@ -4,7 +4,7 @@ import { csrf } from 'hono/csrf'
 import { Hono } from 'hono'
 
 import type { User, Session } from 'lucia'
-import { lucia } from './db/lucia'
+import { lucia } from './lucia'
 
 const app = new Hono<{
 	Variables: {
