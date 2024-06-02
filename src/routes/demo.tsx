@@ -14,6 +14,13 @@ import LoginForm from '@/components/LoginForm'
 import { lucia } from '@/db/lucia'
 
 hono.get('/', async(c) => {
+  const user = c.get('user')
+  const session = c.get('session')
+
+  if (user && session) {
+    return c.redirect('/contacts', 301)
+  }
+
   return c.render(<LoginForm/>)
 })
 
