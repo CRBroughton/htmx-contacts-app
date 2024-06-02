@@ -1,7 +1,9 @@
 import { Hono  } from 'hono'
 import { serveStatic } from 'hono/bun'
+import { csrf } from 'hono/csrf'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Session, User } from 'lucia'
+import { authMiddleware } from './db/middleware'
 
 export const hono = new Hono<{
 	Variables: {
@@ -9,6 +11,9 @@ export const hono = new Hono<{
 		session: Session | null
 	};
 }>()
+
+hono.use(csrf())
+hono.use('*', authMiddleware)
 
 hono.use('/styles.css', serveStatic({ path: './styles.css' }))
 hono.use('custom.css', serveStatic({
