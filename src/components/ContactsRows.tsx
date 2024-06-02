@@ -1,4 +1,4 @@
-import { Contact } from '@/schema'
+import { Contact } from '@/db/schema'
 
 export default function ContactsRows({ contacts }: { contacts: Contact[] }) {
   return (

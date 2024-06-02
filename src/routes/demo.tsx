@@ -10,9 +10,31 @@ import { createBunWebSocket } from 'hono/bun'
 import hono from '@/hono'
 import { db } from '@/db/db'
 import { Contact, ContactWithErrors } from '@/db/schema'
+import LoginForm from '@/components/LoginForm'
 
-hono.get('/', (c) => {
+hono.get('/', async(c) => {
+  return c.render(<LoginForm/>)
+})
+
+hono.post('/', async(c) => {
+  const { username } = await c.req.parseBody<{username: string, password: string}>()
+
+  const user = await db
+    .selectFrom('user')
+    .where('user.username', '=', username)
+    .selectAll()
+    .executeTakeFirst()
+
+  if (user === undefined) {
+    await db.insertInto('user')
+      .values({ username })
+      .executeTakeFirstOrThrow()
+
+    return c.redirect('/contacts', 301)
+
+  }
   return c.redirect('/contacts', 301)
+
 })
 
 const { upgradeWebSocket, websocket } = createBunWebSocket()

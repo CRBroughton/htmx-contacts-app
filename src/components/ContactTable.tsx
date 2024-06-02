@@ -1,4 +1,4 @@
-import { Contact } from '@/schema'
+import { Contact } from '@/db/schema'
 import ContactsRows from './ContactsRows'
 import PaginationButton from './Pagination'
 import DeleteContacts from './DeleteContacts'

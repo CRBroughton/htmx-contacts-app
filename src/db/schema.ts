@@ -9,12 +9,12 @@ interface ContactsTable {
 }
 
 export interface UserTable {
-    id: string
+    id: Generated<number>
     username: string
 }
 
 interface SessionTable {
-    id: string
+    id: Generated<number>
     user_id: string
     expires_at: Date
 }
