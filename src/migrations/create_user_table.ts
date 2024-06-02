@@ -6,6 +6,7 @@ export async function up(db: Kysely<KyselyDatabase>): Promise<void> {
     .createTable('user')
     .addColumn('id', 'integer', (col) => col.primaryKey().autoIncrement())
     .addColumn('username', 'varchar')
+    .addColumn('password_hash', 'varchar')
     .execute()
 }
 
