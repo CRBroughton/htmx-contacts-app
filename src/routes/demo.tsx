@@ -12,6 +12,7 @@ import { db } from '@/db/db'
 import { Contact, ContactWithErrors } from '@/db/schema'
 import LoginForm  from '@/components/LoginForm'
 import { lucia } from '@/db/lucia'
+import PaginationButton from '@/components/Pagination'
 
 hono.get('/', async(c) => {
   const user = c.get('user')
@@ -147,7 +148,7 @@ hono.get('/contacts', async (c) => {
     .limit(10)
     .execute()
 
-  if (contacts.length > 0) {
+  if (contacts.length > 0 && pageNum === 0) {
     return c.render(
       <Layout>
         <ContactsForm input={''} />
@@ -157,6 +158,14 @@ hono.get('/contacts', async (c) => {
     )
   }
 
+  if (Number(pageNum) > 0 && contacts.length !== 0) {
+    return c.html(
+      <>
+        <ContactsRows contacts={contacts}/>
+        <PaginationButton page={Number(pageNum)}/>
+      </>
+    )
+  }
 })
 
 hono.get('/contacts/count', async (c) => {
