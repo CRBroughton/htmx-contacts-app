@@ -186,13 +186,13 @@ hono.get('/contacts/new', (c) => {
     last: '',
     phone: '',
   }
-  return c.render(
-    <Layout>
+  return c.html(
+    <>
       <NewContact contact={newContact} action='/contacts/new' method='POST' />
       <p>
         <a href="/contacts">Back</a>
       </p>
-    </Layout>
+    </>
   )
 })
 
