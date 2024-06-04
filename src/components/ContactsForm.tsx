@@ -1,6 +1,6 @@
 export default function ContactsForm({ input }: { input: string }) {
   return (
-    <form action="/contacts" method="get" class="flex gap-2 items-center">
+    <form action="/contacts" method="get" class="flex gap-2 items-center mt-4">
       <input
         class="p-2"
         id="search"

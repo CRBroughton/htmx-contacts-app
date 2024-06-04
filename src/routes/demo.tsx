@@ -1,4 +1,3 @@
-import AddContact from '@/components/AddContact'
 import ContactTable from '@/components/ContactTable'
 import ContactsForm from '@/components/ContactsForm'
 import { Layout } from '@/components/Layout'
@@ -128,7 +127,6 @@ hono.get('/contacts', async (c) => {
       return c.render(
         <Layout>
           <ContactsForm input={''} />
-          <AddContact />
           <ContactTable contacts={contacts} page={Number(pageNum)} />
         </Layout>
       )
@@ -152,7 +150,6 @@ hono.get('/contacts', async (c) => {
     return c.render(
       <Layout>
         <ContactsForm input={''} />
-        <AddContact />
         <ContactTable contacts={contacts}  page={Number(pageNum)}  />
       </Layout>
     )
