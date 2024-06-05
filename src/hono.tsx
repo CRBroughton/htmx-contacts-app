@@ -1,4 +1,4 @@
-import { Hono  } from 'hono'
+import { Hono } from 'hono'
 import { serveStatic } from 'hono/bun'
 import { csrf } from 'hono/csrf'
 import { jsxRenderer } from 'hono/jsx-renderer'

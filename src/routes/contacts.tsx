@@ -5,40 +5,12 @@ import NewContact from '@/pages/NewContact'
 import ContactDetail from '@/components/ContactDetails'
 import { validateContact } from '@/utils'
 import ContactsRows from '@/components/ContactsRows'
-import { createBunWebSocket } from 'hono/bun'
 import hono from '@/hono'
 import { db } from '@/db/db'
 import { Contact, ContactWithErrors } from '@/db/schema'
 import LoginForm  from '@/components/LoginForm'
 import { lucia } from '@/db/lucia'
 import PaginationButton from '@/components/Pagination'
-
-hono.get('/', async(c) => {
-  const user = c.get('user')
-  const session = c.get('session')
-
-  if (user && session) {
-    return c.redirect('/contacts', 301)
-  }
-
-  return c.render(<LoginForm/>)
-})
-
-hono.post('/logout', async(c) => {
-  const session = c.get('session')
-  const user = c.get('user')
-  if (session && !user) {
-    await lucia.validateSession(session.id)
-  }
-  if (session && user) {
-    await lucia.invalidateUserSessions(user.id)
-  }
-
-  const cookie = lucia.createBlankSessionCookie()
-  c.header('Set-Cookie', cookie.serialize(), { append: true })
-
-  return c.redirect('/')
-})
 
 hono.post('/', async(c) => {
   const { username, password } = await c.req.parseBody<{username: string, password: string}>()
@@ -81,24 +53,6 @@ hono.post('/', async(c) => {
     }
   }
 })
-
-const { upgradeWebSocket, websocket } = createBunWebSocket()
-const randomUUID = crypto.randomUUID()
-
-hono.get(
-  '/ws/hotreload',
-  upgradeWebSocket(() => {
-    return {
-      onMessage(event, ws) {
-        ws.send(randomUUID)
-      },
-      onClose: () => {
-        // eslint-disable-next-line no-console
-        console.log('WS Connection closed')
-      },
-    }
-  })
-)
 
 hono.get('/contacts', async (c) => {
   const user = c.get('user')
@@ -348,24 +302,7 @@ hono.get('/contacts/:id/email', async (c) => {
   return c.text('')
 
 })
-// hono.get('/', (c) => {
-//   return c.render(<div><Test numbers={numbers} /></div>
-//   )
-// })
-
-// hono.get('/id/:id', async (c) => {
-//   const test = await db.selectFrom('pet')
-//     .where('id', '=', 1)
-//     .selectAll()
-//     .executeTakeFirst()
-
-//   if (test !== undefined) {
-//     return c.html(<CustomButton num={test.id}/>)
-//   }
-//   return c.html(<CustomButton num={5}/>)
-// })
 
 export {
-  hono,
-  websocket
+  hono as contacts,
 }
